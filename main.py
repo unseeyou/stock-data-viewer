@@ -7,23 +7,27 @@ def on_submit():
     year = "".join([i for i in year_entry.get() if i.isnumeric()])
     stock = stock_entry.get().upper()
     if year and stock:
-        ticker = TickerFactory(ticker=stock, data_source="yahoo_api").ticker
-        data = ticker.price(range='200y', dataGranularity='1d').to_dict()
-
-        timestamps: dict = data["timestamp"]
-        prices: dict = data["close"]
-
-        key_dates = {}
-
-        for timestamp, price in zip(timestamps, prices):
-            if "-06-30" in str(timestamps[timestamp]):
-                key_dates[str(timestamps[timestamp].year)] = prices[price]
         try:
-            output.configure(text=f"The price of {stock} at June 30th of {year} was: {key_dates[year]}")
+            ticker = TickerFactory(ticker=stock, data_source="yahoo_api").ticker
+            data = ticker.price(range='200y', dataGranularity='1d').to_dict()
+
+            timestamps: dict = data["timestamp"]
+            prices: dict = data["close"]
+
+            key_dates = {}
+
+            for timestamp, price in zip(timestamps, prices):
+                if "-06-30" in str(timestamps[timestamp]):
+                    key_dates[str(timestamps[timestamp].year)] = prices[price]
+
+        except BaseException:
+            output.configure(text="\nOops! Something went wrong!\nPlease check your internet connection and try again.")
+        try:
+            output.configure(text=f"\nThe price of {stock} at June 30th of {year} was: {key_dates[year]}")
         except KeyError:
-            output.configure(text="There is no data for that year!")
+            output.configure(text="\nThere is no data for that year!")
     else:
-        output.configure(text="Please fill in all the details before searching!")
+        output.configure(text="\nPlease fill in all the details before searching!")
 
 
 root = ctk.CTk()
@@ -39,7 +43,7 @@ stock_entry.pack()
 submit_button = ctk.CTkButton(root, text="Search", command=lambda: on_submit())
 submit_button.pack()
 
-output = ctk.CTkLabel(root, text="Click the search button after filling in the details above!")
+output = ctk.CTkLabel(root, text="\nClick the search button after filling in the details above!")
 output.pack()
 
 root.mainloop()
