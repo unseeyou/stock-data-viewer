@@ -1,5 +1,6 @@
 from stockdex import TickerFactory
 import datetime
+import customtkinter as ctk
 
 ticker = TickerFactory(ticker="BHP.AX", data_source="yahoo_api").ticker
 data = ticker.price(range='200y', dataGranularity='1d').to_dict()
@@ -14,3 +15,7 @@ for timestamp, price in zip(timestamps, prices):
         key_dates[timestamps[timestamp]] = prices[price]
 
 print(key_dates[datetime.datetime(2020, 6, 30)])
+
+
+root = ctk.CTk()
+root.mainloop()
