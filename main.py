@@ -1,10 +1,16 @@
-import mini_yahoo_finance as yfinance
-import pandas as pd
+from stockdex import TickerFactory
+import datetime
 
-df = yfinance.get_stock_df(
-    stock_name="BHP.AX",
-    start_date="30-06-2020",
-    end_date="01-07-2020",
-)
+ticker = TickerFactory(ticker="BHP.AX", data_source="yahoo_api").ticker
+data = ticker.price(range='200y', dataGranularity='1d').to_dict()
 
-print(df)
+timestamps: dict = data["timestamp"]
+prices: dict = data["close"]
+
+key_dates = {}
+
+for timestamp, price in zip(timestamps, prices):
+    if "-06-30" in str(timestamps[timestamp]):
+        key_dates[timestamps[timestamp]] = prices[price]
+
+print(key_dates[datetime.datetime(2020, 6, 30)])
