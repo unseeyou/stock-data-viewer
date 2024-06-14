@@ -1,6 +1,7 @@
 from stockdex import TickerFactory
 import datetime
 import customtkinter as ctk
+import FreeSimpleGUI as sg
 
 
 def on_submit():
@@ -23,7 +24,7 @@ def on_submit():
         except BaseException:
             output.configure(text="\nOops! Something went wrong!\nPlease check your internet connection and try again.")
         try:
-            output.configure(text=f"\nThe price of {stock} at June 30th of {year} was: {key_dates[year]}")
+            output.configure(text=f"\nThe price of {stock} at June 30th of {year} was: {round(key_dates[year], 2)}")
         except KeyError:
             output.configure(text="\nThere is no data for that year!")
     else:
@@ -33,6 +34,11 @@ def on_submit():
 root = ctk.CTk()
 root.title("Stock Viewer")
 root.geometry("500x200")
+
+title = ctk.CTkLabel(root, text="\nStock Price Checker\n")
+title.pack()
+
+spreadsheet = tk.
 
 year_entry = ctk.CTkEntry(root, corner_radius=5, placeholder_text="year", width=60)
 year_entry.pack()
