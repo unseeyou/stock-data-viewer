@@ -23,10 +23,10 @@ try:
         if "-06-30" in str(timestamps[timestamp]):
             key_dates[str(timestamps[timestamp].year)] = prices[price]
 
-    output = (stock, str(round(key_dates[year], 2)))
+    output = (stock, round(key_dates[year], 2))
 
 except KeyError:
-    output = "N/A"
+    output = stock, "N/A"
 
 sheet = wb.active
 sheet["A1"], sheet["B1"] = output[0], output[1]
