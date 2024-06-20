@@ -2,4 +2,4 @@ import openpyxl as xl
 
 wb = xl.Workbook()
 
-wb.save("example.xlsx")
+wb.save("output.xlsx")
