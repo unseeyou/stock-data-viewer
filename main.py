@@ -54,4 +54,4 @@ for cell in range(len(company_values)):
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
-wb.save(filename="output.xlsx")
+wb.save(filename=file)
