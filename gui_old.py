@@ -8,6 +8,7 @@ def on_submit():
     file = sg.popup_get_file("Choose a file")
     year = "".join([i for i in year_entry.get() if i.isnumeric()])
     stock = stock_entry.get().upper()
+    key_dates = {}
     if year and stock:
         try:
             ticker = TickerFactory(ticker=stock, data_source="yahoo_api").ticker
@@ -15,8 +16,6 @@ def on_submit():
 
             timestamps: dict = data["timestamp"]
             prices: dict = data["close"]
-
-            key_dates = {}
 
             for timestamp, price in zip(timestamps, prices):
                 if "-06-30" in str(timestamps[timestamp]):
