@@ -1,7 +1,11 @@
 from stockdex import TickerFactory
+import FreeSimpleGUI as sg
 import openpyxl as xl
 
-wb = xl.load_workbook(filename="sample.xlsx", data_only=True)
+file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
+print(file)
+
+wb = xl.load_workbook(filename=file, data_only=True)
 sheet = wb["Share Revaluation"]
 
 date = sheet["D5"].value.year
@@ -50,4 +54,4 @@ for cell in range(len(company_values)):
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
-wb.save(filename="sample.xlsx")
+wb.save(filename="output.xlsx")
