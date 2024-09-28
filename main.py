@@ -2,6 +2,7 @@ from stockdex import TickerFactory
 import FreeSimpleGUI as sg
 import openpyxl as xl
 from pprint import pprint
+from get_tickers import lookup_all_tickers
 
 file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
 print(file)
@@ -14,10 +15,21 @@ date = sheet["D5"].value.year
 
 stock_values_loc = ["G", 9]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
-print(data)
 while data is not None:
     stock_values_loc[1] += 1
     data = sheet["".join([str(i) for i in stock_values_loc])].value
+
+print("Loading companies...", end="")
+companies_loc = ["B", 9]
+companies = []
+data = sheet["".join([str(i) for i in companies_loc])].value
+while data is not None:
+    companies_loc[1] += 1
+    data = sheet["".join([str(i) for i in companies_loc])].value
+    if data is not None:
+        companies.append(data)
+companies = lookup_all_tickers(companies)
+print(" DONE!")
 
 total_stocks = stock_values_loc[1] - 9
 
@@ -25,7 +37,12 @@ company_tickers = []
 company_values = []
 
 for i in range(total_stocks):
-    company_tickers.append(sheet[f"C{i + 9}"].value)
+    if sheet[f"C{i + 9}"].value is not None:
+        company_tickers.append(sheet[f"C{i + 9}"].value)
+    else:
+        val = companies[sheet[f"B{i + 9}"].value]
+        company_tickers.append(val)
+        sheet[f"C{i + 9}"] = val
 
 print(company_tickers)
 
