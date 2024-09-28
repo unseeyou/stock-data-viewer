@@ -1,10 +1,11 @@
 from stockdex import TickerFactory
 import FreeSimpleGUI as sg
 import openpyxl as xl
+from pprint import pprint
 
-# file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
-# print(file)
-file = "sample.xlsx"
+file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
+print(file)
+# file = "sample.xlsx"
 
 wb = xl.load_workbook(filename=file, data_only=True)
 sheet = wb["Share Revaluation"]
@@ -37,17 +38,21 @@ for company in company_tickers:
         data = ticker.price(range='200y', dataGranularity='1d').to_dict()
 
         timestamps: dict = data["timestamp"]
+        # pprint(timestamps)
         prices: dict = data["close"]
-
-        key_dates = {}
 
         for timestamp, price in zip(timestamps, prices):
             if f"{date}-06-30" in str(timestamps[timestamp]):
                 final_price = prices[price]
                 break
+            elif date == 2024 and f"{date}-06-28" in str(timestamps[timestamp]):
+                final_price = prices[price]
+                break
 
-        output = (company, round(final_price, 2)) if final_price != -1 else (stock, "N/A")
+        output = (company, round(final_price, 2)) if final_price != -1 else (company, "N/A")
         print(" DONE!")
+        print(output)
+
     else:
         output = (company, "N/A")
     company_values.append(output)
