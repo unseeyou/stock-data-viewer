@@ -22,6 +22,6 @@ path and once it is highlighted, type in `cmd` then hit enter.
 
 Once you do this, the command prompt should pop up.
 Run the following command in the terminal:
- `pip install -r requirements.txt`
+ ```pip install -r requirements.txt```
 
 Once the packages have finished installing, you should be good to go! Simply run the main.py file to get started.
