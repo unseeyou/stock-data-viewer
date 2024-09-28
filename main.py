@@ -2,8 +2,9 @@ from stockdex import TickerFactory
 import FreeSimpleGUI as sg
 import openpyxl as xl
 
-file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
-print(file)
+# file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
+# print(file)
+file = "sample.xlsx"
 
 wb = xl.load_workbook(filename=file, data_only=True)
 sheet = wb["Share Revaluation"]
@@ -12,6 +13,7 @@ date = sheet["D5"].value.year
 
 stock_values_loc = ["G", 9]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
+print(data)
 while data is not None:
     stock_values_loc[1] += 1
     data = sheet["".join([str(i) for i in stock_values_loc])].value
@@ -23,6 +25,8 @@ company_values = []
 
 for i in range(total_stocks):
     company_tickers.append(sheet[f"C{i + 9}"].value)
+
+print(company_tickers)
 
 for company in company_tickers:
     if company is not None:
