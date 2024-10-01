@@ -16,9 +16,11 @@ date = sheet["G3"].value.year
 # where the current stock unit prices are located
 stock_values_loc = ["E", 6]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
+
 while data is not None:
     stock_values_loc[1] += 1
     data = sheet["".join([str(i) for i in stock_values_loc])].value
+
 
 print("Loading companies...", end="")
 companies_loc = ["A", 6]
