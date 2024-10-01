@@ -18,7 +18,7 @@ def lookup_all_tickers(companies: list[str]) -> dict[str, str | None]:
     # make Edge headless
     edge_options = webdriver.EdgeOptions()
     edge_options.use_chromium = True  # if we miss this line, we can't make Edge headless
-    # A little different from Chrome cause we don't need two lines before 'headless' and 'disable-gpu'
+    # A little different from Chrome because we don't need two lines before 'headless' and 'disable-gpu'
     edge_options.add_argument('headless')
     edge_options.add_argument('disable-gpu')
     driver = webdriver.Edge(options=edge_options)
