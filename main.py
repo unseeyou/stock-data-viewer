@@ -4,7 +4,9 @@ import openpyxl as xl
 from pprint import pprint
 from get_tickers import lookup_all_tickers
 
+print("Getting file...", end="")
 file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), ("All Files", "*.*")))
+print(" DONE!")
 print(file)
 # file = "sample.xlsx"
 

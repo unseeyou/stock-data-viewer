@@ -5,7 +5,7 @@ from time import sleep
 
 def lookup_ticker(driver: webdriver.Edge, company: str) -> str | None:
     try:
-        company = company.replace("Ltd", "Limited")
+        company = company.replace("Ltd", "")
         URL = "https://www.asx.com.au/asx/research/codeLookup.do?by=searchByName&returnToFormIndex=&codeFormElement=&nameFormElement=&nameToSearch="
         driver.get(URL + company)
         t = driver.find_element(By.CLASS_NAME, "context").text
