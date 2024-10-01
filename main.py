@@ -20,7 +20,7 @@ while data is not None:
     data = sheet["".join([str(i) for i in stock_values_loc])].value
 
 print("Loading companies...", end="")
-companies_loc = ["B", 9]
+companies_loc = ["A", 9]
 companies = []
 data = sheet["".join([str(i) for i in companies_loc])].value
 while data is not None:
@@ -40,7 +40,7 @@ for i in range(total_stocks):
     if sheet[f"I{i + 9}"].value is not None:
         company_tickers.append(sheet[f"I{i + 9}"].value)
     else:
-        val = companies[sheet[f"B{i + 9}"].value]
+        val = companies[sheet[f"A{i + 9}"].value]
         company_tickers.append(val)
         sheet[f"I{i + 9}"] = val
 
