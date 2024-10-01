@@ -14,14 +14,14 @@ sheet = wb["Listed share price"]
 date = sheet["G3"].value.year
 
 # where the current stock unit prices are located
-stock_values_loc = ["E", 7]
+stock_values_loc = ["E", 6]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
 while data is not None:
     stock_values_loc[1] += 1
     data = sheet["".join([str(i) for i in stock_values_loc])].value
 
 print("Loading companies...", end="")
-companies_loc = ["A", 7]
+companies_loc = ["A", 6]
 companies = []
 data = sheet["".join([str(i) for i in companies_loc])].value
 while data is not None:
@@ -33,18 +33,18 @@ companies = lookup_all_tickers(companies)
 pprint(companies)
 print(" DONE!")
 
-total_stocks = stock_values_loc[1] - 7
+total_stocks = stock_values_loc[1] - 6
 
 company_tickers = []
 company_values = []
 
 for i in range(total_stocks):
-    if sheet[f"H{i + 7}"].value is not None:
-        company_tickers.append(sheet[f"H{i + 7}"].value)
+    if sheet[f"H{i + 6}"].value is not None:
+        company_tickers.append(sheet[f"H{i + 6}"].value)
     else:
-        val = companies[sheet[f"A{i + 7}"].value]
+        val = companies[sheet[f"A{i + 6}"].value]
         company_tickers.append(val)
-        sheet[f"H{i + 7}"] = val
+        sheet[f"H{i + 6}"] = val
 
 print(company_tickers)
 
@@ -79,7 +79,7 @@ for company in company_tickers:
 
 print("Adding values to spreadsheet...", end="")
 for cell in range(len(company_values)):
-    price_pos = f"E{cell + 7}"
+    price_pos = f"E{cell + 6}"
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
