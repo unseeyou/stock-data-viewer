@@ -14,7 +14,8 @@ sheet = wb["Listed share price"]
 date = sheet["G3"].value.year
 
 # where the current stock unit prices are located
-stock_values_loc = ["E", 6]
+stock_values_loc = ["E", 7
+                    ]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
 
 while data is not None:
@@ -37,18 +38,23 @@ companies = lookup_all_tickers(companies)
 pprint(companies)
 print(" DONE!")
 
-total_stocks = stock_values_loc[1] - 6
+total_stocks = stock_values_loc[1] - 7
+
 
 company_tickers = []
 company_values = []
 
 for i in range(total_stocks):
-    if sheet[f"H{i + 6}"].value is not None:
-        company_tickers.append(sheet[f"H{i + 6}"].value)
+    if sheet[f"H{i + 7
+    }"].value is not None:
+        company_tickers.append(sheet[f"H{i + 7
+        }"].value)
     else:
-        val = companies[sheet[f"A{i + 6}"].value]
+        val = companies[sheet[f"A{i + 7
+        }"].value]
         company_tickers.append(val)
-        sheet[f"H{i + 6}"] = val
+        sheet[f"H{i + 7
+        }"] = val
 
 print(company_tickers)
 
@@ -66,10 +72,12 @@ for company in company_tickers:
         prices: dict = data["close"]
 
         for timestamp, price in zip(timestamps, prices):
-            if f"{date}-06-30" in str(timestamps[timestamp]):
+            if (f"{date}-06"
+                f"-30") in str(timestamps[timestamp]):
                 final_price = prices[price]
                 break
-            elif date == 2024 and f"{date}-06-28" in str(timestamps[timestamp]):
+            elif date == 2024 and (f"{date}-06"
+                                   f"-28") in str(timestamps[timestamp]):
                 final_price = prices[price]
                 break
 
@@ -83,7 +91,8 @@ for company in company_tickers:
 
 print("Adding values to spreadsheet...", end="")
 for cell in range(len(company_values)):
-    price_pos = f"E{cell + 6}"
+    price_pos = f"E{cell + 7
+    }"
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
