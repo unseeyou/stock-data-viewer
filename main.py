@@ -1,4 +1,4 @@
-from stockdex import TickerFactory
+from stockdex import Ticker
 import FreeSimpleGUI as sg
 import openpyxl as xl
 from pprint import pprint
@@ -8,10 +8,10 @@ file = sg.popup_get_file("Select File", file_types=(("Excel Files", "*.xlsx"), (
 print(file)
 # file = "sample.xlsx"
 
-wb = xl.load_workbook(filename=file, data_only=True)
-sheet = wb["Share Revaluation"]
+wb = xl.load_workbook(filename=file, data_only=False)
+sheet = wb["Listed share price"]
 
-date = sheet["D5"].value.year
+date = sheet["C5"].value.year
 
 stock_values_loc = ["G", 9]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
@@ -37,22 +37,26 @@ company_tickers = []
 company_values = []
 
 for i in range(total_stocks):
-    if sheet[f"C{i + 9}"].value is not None:
-        company_tickers.append(sheet[f"C{i + 9}"].value)
+    if sheet[f"I{i + 9}"].value is not None:
+        company_tickers.append(sheet[f"I{i + 9}"].value)
     else:
         val = companies[sheet[f"B{i + 9}"].value]
         company_tickers.append(val)
-        sheet[f"C{i + 9}"] = val
+        sheet[f"I{i + 9}"] = val
 
 print(company_tickers)
 
+
 for company in company_tickers:
-    if company is not None:
+    if company is not None and company != "SPK.AX":
         print(f"Getting stock data for {company}...", end="")
         final_price = -1
 
-        ticker = TickerFactory(ticker=company, data_source="yahoo_api").ticker
-        data = ticker.price(range='200y', dataGranularity='1d').to_dict()
+        if not company.endswith(".AX"):
+            company += ".AX"
+
+        ticker = Ticker(ticker=company)
+        data = ticker.yahoo_api_price(range='200y', dataGranularity='1d').to_dict()
 
         timestamps: dict = data["timestamp"]
         # pprint(timestamps)
@@ -76,7 +80,7 @@ for company in company_tickers:
 
 print("Adding values to spreadsheet...", end="")
 for cell in range(len(company_values)):
-    price_pos = f"G{cell + 9}"
+    price_pos = f"F{cell + 9}"
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
