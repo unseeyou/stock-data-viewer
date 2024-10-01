@@ -23,9 +23,11 @@ while data is not None:
 
 
 print("Loading companies...", end="")
-companies_loc = ["A", 6]
+companies_loc = ["A", 7]
 companies = []
 data = sheet["".join([str(i) for i in companies_loc])].value
+if data is not None:
+    companies.append(data)
 while data is not None:
     companies_loc[1] += 1
     data = sheet["".join([str(i) for i in companies_loc])].value
