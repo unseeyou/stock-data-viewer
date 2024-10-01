@@ -11,9 +11,9 @@ print(file)
 wb = xl.load_workbook(filename=file, data_only=False)
 sheet = wb["Listed share price"]
 
-date = sheet["C5"].value.year
+date = sheet["G3"].value.year
 
-stock_values_loc = ["G", 9]
+stock_values_loc = ["E", 7]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
 while data is not None:
     stock_values_loc[1] += 1
@@ -52,9 +52,6 @@ for company in company_tickers:
         print(f"Getting stock data for {company}...", end="")
         final_price = -1
 
-        if not company.endswith(".AX"):
-            company += ".AX"
-
         ticker = Ticker(ticker=company)
         data = ticker.yahoo_api_price(range='200y', dataGranularity='1d').to_dict()
 
@@ -80,7 +77,7 @@ for company in company_tickers:
 
 print("Adding values to spreadsheet...", end="")
 for cell in range(len(company_values)):
-    price_pos = f"F{cell + 9}"
+    price_pos = f"E{cell + 9}"
     sheet[price_pos] = company_values[cell][1]
 print(" DONE!")
 
