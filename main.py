@@ -13,6 +13,7 @@ sheet = wb["Listed share price"]
 
 date = sheet["G3"].value.year
 
+# where the current stock unit prices are located
 stock_values_loc = ["E", 7]
 data = sheet["".join([str(i) for i in stock_values_loc])].value
 while data is not None:
